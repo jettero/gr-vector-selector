@@ -1,9 +1,5 @@
 #!/bin/bash
 
-if [ -n "$1" ]; then
-    PREFIX="$1"
-fi
-
 buildname='gr-vector-selector'
 buildtmp="/tmp/$buildname.tmp"
 

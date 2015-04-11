@@ -42,4 +42,4 @@ cmake -DCMAKE_INSTALL_PREFIX=/usr "$src"
 sudo make install
 
 # *or* just use my build script
-bash build.sh /my/install/prefix/here
+PREFIX=/usr ./build.sh

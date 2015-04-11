@@ -1,9 +1,5 @@
 <?xml version="1.0"?>
-<!--
-###################################################
-##Virtual Channel Formatter
-###################################################
- -->
+
 <block>
     <name>Vector Selector</name>
     <key>vector_selector</key>
@@ -14,36 +10,32 @@
 	<param>
 		<name>IO Type</name>
 		<key>type</key>
+        <value>complex</value>
 		<type>enum</type>
 		<option>
 			<name>Complex</name>
 			<key>complex</key>
 			<opt>size:gr.sizeof_gr_complex</opt>
-			<opt>vec_type:complex_vector</opt>
 		</option>
 		<option>
 			<name>Float</name>
 			<key>float</key>
 			<opt>size:gr.sizeof_float</opt>
-			<opt>vec_type:float_vector</opt>
 		</option>
 		<option>
 			<name>Int</name>
 			<key>int</key>
 			<opt>size:gr.sizeof_int</opt>
-			<opt>vec_type:int_vector</opt>
 		</option>
 		<option>
 			<name>Short</name>
 			<key>short</key>
 			<opt>size:gr.sizeof_short</opt>
-			<opt>vec_type:short_vector</opt>
 		</option>
 		<option>
 			<name>Byte</name>
 			<key>byte</key>
 			<opt>size:gr.sizeof_char</opt>
-			<opt>vec_type:char_vector</opt>
 		</option>
 	</param>
 
@@ -53,7 +45,6 @@
 		<value>1024</value>
 		<type>int</type>
 	</param>
-	<check>$vec_len &gt;= 1</check>
 
     <param>
         <name>Indicies</name>
@@ -61,16 +52,20 @@
         <value>(7,8,9)</value>
         <type>int_vector</type>
     </param>
+
+	<check>$vec_len &gt;= 1</check>
     <check>max($indices) &lt;= $vec_len and min($indices) &gt;= 1</check>
 
 	<sink>
 		<name>in</name>
-        <type>$type.vec_type</type>
+        <type>$type</type>
+        <vlen>$vec_len</vlen>
 	</sink>
 
 	<source>
 		<name>out</name>
 		<type>$type</type>
+        <vlen>1</vlen>
 		<nports>len($indices)</nports>
 	</source>
  
