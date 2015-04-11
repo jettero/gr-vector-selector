@@ -63,10 +63,11 @@
 	</sink>
 
 	<source>
-		<name>out</name>
+        <name>vslice</name>
 		<type>$type</type>
         <vlen>1</vlen>
 		<nports>len($indices)</nports>
+        <optional>True</optional>
 	</source>
  
     <doc>
