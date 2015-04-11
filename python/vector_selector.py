@@ -1,32 +1,63 @@
 
-import blocks_swig as blocks
+import numpy
 from gnuradio import gr
 
-class vector_selector(gr.basic_block):
+class vector_selector(gr.sync_block):
     """
     Select index(es) of vector inputs and create a stream (or streams) of those indicies
     """
 
-    def __init__(self, item_size, vec_len, indices):
+    def __init__(self, dtype, vec_len, indices):
         """
-        Create the block chain.
-        
+        Create the block block
+
         Args:
-            item_size: the size of the samples in the vectors and output streams
-            vec_len:   number of elements in the input vectors
-            indices:   a list of indicies out of which to create streams
+            dtype:    the numpy dtype of the numeric values -- vector and stream(s)
+            vec_len:  size of the input vectors
+            indices:  a list of indicies out of which to create streams
         """
 
-        self._item_size = item_size
-        self._vec_len   = vec_len
-        self._indicies  = indices
-        self._outputs   = len(indices)
+        # APOLOGETIC NOTE:
+        #
+        # Apparently gnuradio 3.7 hides io sigs behind numpy now.  This is fine
+        # and convenient and easy for simple numeric types, but kinda blows for
+        # vectors.
+        #
+        # numpy.dtype( numpy.complex64 ) gives: dtype("complex64")
+        # numpy.dtype(numpy.dtype(numpy.dtype("complex64"))) also
+        # gives: dtype("complex64").
+        #
+        # to get a vector(2) structured array type, use this:
+        #
+        # numpy.dtype("complex64, complex64") which gives:
+        #
+        # dtype([('f0', '<c8'), ('f1', '<c8')]).
+        #
+        # When you take the numpy.dtype(<of that>)) you get
+        # dtype([('f0', '<c8'), ('f1', '<c8')])
+        # right back.
+        #
+        # Therfore, to get a structured array of dtype complex64 -- the only
+        # way I can find to pull this off -- use a huge string join like the
+        # below.  When you take the dtype of it, you get a very long tragedy
+        # like in the structured dtype shown for the above complex vector.
+        #
+        # This was all a bunch easier in 3.6 imo:
+        #
+        #  gr.basic_block.__init__(self, "stream_to_vector_decimator",
+        #      gr.io_signature(1, 1, item_size*vec_len),
+        #      gr.io_signature(self._outputs, self._outputs, item_size))
+        #
+        #  Oh well, we live an adapt I guess.
 
-        gr.hier_block2.__init__(self, "stream_to_vector_decimator",
-                                gr.io_signature(1, 1, item_size*vec_len),
-                                gr.io_signature(self._outputs, self._outputs, item_size))
+        self._outputs    = len(indices)
 
-    def general_work(self,input_items, output_items):
+        gr.sync_block.__init__(self, "vector_selector",
+            [ ", ".join( [dtype] * vec_len ) ],
+            [dtype] * self._outputs
+        )
+
+    def work(self,input_items, output_items):
         # out = output_items[0]
 
         return 0;

@@ -5,7 +5,41 @@
     <key>vector_selector</key>
     <category>Stream Operators</category>
     <import>import grvectorselector</import>
-    <make>grvectorselector.vector_selector($type.size,$vec_len,$indices)</make>
+    <make>grvectorselector.vector_selector(dtype=$type.dtype,vec_len=$vec_len,indices=$indices)</make>
+
+    <!--
+
+    >>> from gnuradio import gr
+    >>> gr.sizeof_gr_complex
+    8
+    >>> gr.sizeof_float
+    4
+    >>> gr.sizeof_int
+    4
+    >>> gr.sizeof_short
+    2
+    >>> gr.sizeof_char
+    1
+
+    >>> for x in [numpy.complex, numpy.float, numpy.int, numpy.short, numpy.byte]:
+    ...    print numpy.dtype(x)
+    ... 
+    complex128
+    float64
+    int64
+    int16
+    int8
+
+    FIXME:
+    complex64 is the only type I've actually tried/tested
+    in principle, the others should be right, but I never
+    actually tried them
+                                                               
+    pretty sure they're right based on the python shell 
+    output above
+    -->
+
+
 
 	<param>
 		<name>IO Type</name>
@@ -15,27 +49,27 @@
 		<option>
 			<name>Complex</name>
 			<key>complex</key>
-			<opt>size:gr.sizeof_gr_complex</opt>
-		</option>
-		<option>
+            <opt>dtype:"complex64"</opt>
+        </option>                       
+        <option>                        
 			<name>Float</name>
 			<key>float</key>
-			<opt>size:gr.sizeof_float</opt>
+            <opt>dtype:"float64"</opt>  
 		</option>
 		<option>
 			<name>Int</name>
 			<key>int</key>
-			<opt>size:gr.sizeof_int</opt>
+			<opt>dtype:"int64"</opt>
 		</option>
 		<option>
 			<name>Short</name>
 			<key>short</key>
-			<opt>size:gr.sizeof_short</opt>
+			<opt>dtype:"int16"</opt>
 		</option>
 		<option>
 			<name>Byte</name>
 			<key>byte</key>
-			<opt>size:gr.sizeof_char</opt>
+			<opt>dtype:"int8"</opt>
 		</option>
 	</param>
 
