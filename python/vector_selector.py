@@ -57,7 +57,13 @@ class vector_selector(gr.sync_block):
             [dtype] * self._outputs
         )
 
-    def work(self,input_items, output_items):
-        # out = output_items[0]
+        self._fuck_you_debug = True
+
+    def work(self, input_items, output_items):
+        _in = input_items[0]
+
+        print "in contains %d items" % len(_in)
+        for i in enumerate(_in):
+            print " len(_in[%d]) -> %s " % ( i[0], len(i[1]) )
 
         return 0;

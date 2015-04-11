@@ -23,7 +23,7 @@
 
     >>> for x in [numpy.complex, numpy.float, numpy.int, numpy.short, numpy.byte]:
     ...    print numpy.dtype(x)
-    ... 
+    ...
     complex128
     float64
     int64
@@ -34,8 +34,8 @@
     complex64 is the only type I've actually tried/tested
     in principle, the others should be right, but I never
     actually tried them
-                                                               
-    pretty sure they're right based on the python shell 
+
+    pretty sure they're right based on the python shell
     output above
     -->
 
@@ -50,11 +50,11 @@
 			<name>Complex</name>
 			<key>complex</key>
             <opt>dtype:"complex64"</opt>
-        </option>                       
-        <option>                        
+        </option>
+        <option>
 			<name>Float</name>
 			<key>float</key>
-            <opt>dtype:"float64"</opt>  
+            <opt>dtype:"float64"</opt>
 		</option>
 		<option>
 			<name>Int</name>
@@ -103,7 +103,7 @@
 		<nports>len($indices)</nports>
         <optional>True</optional>
 	</source>
- 
+
     <doc>
 Lorem ipsum dolor sit amet, at sea mnesarchum repudiandae. Vix te
 quidam dolorum, est duis reformidans referrentur cu. Exerci
