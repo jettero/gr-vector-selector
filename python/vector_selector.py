@@ -50,20 +50,21 @@ class vector_selector(gr.sync_block):
         #
         #  Oh well, we live an adapt I guess.
 
-        self._outputs    = len(indices)
+        self._outputs = len(indices)
+        self._indices = indices
 
         gr.sync_block.__init__(self, "vector_selector",
             [ ", ".join( [dtype] * vec_len ) ],
             [dtype] * self._outputs
         )
 
-        self._fuck_you_debug = True
-
     def work(self, input_items, output_items):
         _in = input_items[0]
 
-        print "in contains %d items" % len(_in)
-        for i in enumerate(_in):
-            print " len(_in[%d]) -> %s " % ( i[0], len(i[1]) )
+        for e1 in enumerate(_in):
+            for e2 in enumerate(self._indices):
+                _debug = output_items[ e2[0] ][ e1[0] ] = e1[1][ e2[1] ]
+                print "spam: %s" % _debug
 
-        return 0;
+        print "spam: len=%d\n" % len(_in)
+        return len(_in)
