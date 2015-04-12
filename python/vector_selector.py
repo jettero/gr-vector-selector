@@ -65,8 +65,8 @@ class vector_selector(gr.sync_block):
     def work(self, input_items, output_items):
         _in = input_items[0]
 
-        for (i_idx, i_vec) in enumerate(_in):
-            for (o_stream_idx, i_vec_idx) in enumerate(self._indices):
+        for (o_stream_idx, i_vec_idx) in enumerate(self._indices):
+            for (i_idx, i_vec) in enumerate(_in):
                 c = i_vec[ i_vec_idx ]
                 output_items[ o_stream_idx ][ i_idx ] = c
 
@@ -74,8 +74,8 @@ class vector_selector(gr.sync_block):
                     print "spam: [%s] %7.2fi + %7.2fj -> v-slice %d @[%d]" % (
                         numpy.dtype(c),
                         c.real, c.imag,
+                        o_stream_idx,
                         i_idx,
-                        o_stream_idx
                     )
 
         if  self._debug:
