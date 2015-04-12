@@ -5,7 +5,13 @@
     <key>vector_selector</key>
     <category>Stream Operators</category>
     <import>import grvectorselector</import>
-    <make>grvectorselector.vector_selector(dtype=$type.dtype,vec_len=$vec_len,indices=$indices,debug=$debug)</make>
+    <make>grvectorselector.vector_selector(
+            dtype    = $type.dtype,
+            vec_len  = $vec_len,
+            indices  = $indices,
+            modality = $modality,
+            debug    = $debug,
+    )</make>
 
     <!-- I've no idea if this would work, but in theory, if something changes, GRC will 
          call this method with the new value of indices — presuming it may have changed
@@ -93,6 +99,21 @@
     </param>
 
     <param>
+        <name>Operation Mode</name>
+        <key>modality</key>
+        <value>grvectorselector.INDEX_MODE</value>
+        <type>int</type>
+        <option>
+            <name>indices tuple lists FFT vector indexes</name>
+			<key>grvectorselector.INDEX_MODE</key>
+		</option>
+        <option>
+            <name>indices tuple requests n-th max output</name>
+			<key>grvectorselector.MINMAX_MODE</key>
+        </option>
+    </param>
+
+    <param>
         <name>Spam</name>
         <key>debug</key>
         <value>False</value>
@@ -119,7 +140,7 @@
 	<source>
         <name>vslice</name>
 		<type>$type</type>
-        <vlen>1</vlen>
+        <vlen>(1,2)[$modality == grvectorselector.MINMAX_MODE]</vlen>
 		<nports>len($indices)</nports>
         <optional>True</optional>
 	</source>

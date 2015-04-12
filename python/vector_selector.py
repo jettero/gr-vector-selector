@@ -1,14 +1,17 @@
 
-import numpy
+import numpy, math
 from gnuradio import gr
-import math
+from operator import itemgetter
+
+INDEX_MODE  = 0
+MINMAX_MODE = 1
 
 class vector_selector(gr.sync_block):
     """
     Select index(es) of vector inputs and create a stream (or streams) of those indicies
     """
 
-    def __init__(self, dtype, vec_len, indices, debug=False):
+    def __init__(self, dtype, vec_len, indices, modality=INDEX_MODE, debug=False):
         """
         Create the block block
 
@@ -16,6 +19,7 @@ class vector_selector(gr.sync_block):
             dtype:    the numpy dtype of the numeric values -- vector and stream(s)
             vec_len:  size of the input vectors
             indices:  a list of indicies out of which to create streams
+            debug:    be spammy on the console
         """
 
         # APOLOGETIC NOTE:
@@ -51,9 +55,10 @@ class vector_selector(gr.sync_block):
         #
         #  Oh well, we live an adapt I guess.
 
-        self._outputs = len(indices)
-        self._indices = indices
-        self._debug   = debug
+        self._outputs  = len(indices)
+        self._indices  = indices
+        self._debug    = debug
+        self._modality = modality
 
         gr.sync_block.__init__(self, "vector_selector",
             [ ", ".join( [dtype] * vec_len ) ],
@@ -66,22 +71,40 @@ class vector_selector(gr.sync_block):
     def work(self, input_items, output_items):
         _in = input_items[0]
 
-        for (i_idx, i_vec) in enumerate(_in):
-            for (o_stream_idx, i_vec_idx) in enumerate(self._indices):
-                c = i_vec[ i_vec_idx ]
-                output_items[ o_stream_idx ][ i_idx ] = c
+        if self._modality == INDEX_MODE:
+            for (i_idx, i_vec) in enumerate(_in):
+                for (o_stream_idx, i_vec_idx) in enumerate(self._indices):
+                    c = i_vec[ i_vec_idx ]
+                    output_items[ o_stream_idx ][ i_idx ] = c
 
-                if self._debug:
-                    print "spam: [%s] %7.2fi + %7.2fj -> v-slice %d @[%d]" % (
-                        numpy.dtype(c),
-                        c.real, c.imag,
-                        o_stream_idx,
-                        i_idx,
-                    )
+                    if self._debug:
+                        print "spam: <%s> %7.2fi + %7.2fj -> v-slice %d @[%d]" % (
+                            numpy.dtype(c),
+                            c.real, c.imag,
+                            o_stream_idx,
+                            i_idx,
+                        )
 
-        for (i_idx, i_vec) in enumerate(_in):
-            c = i_vec[ i_vec_idx ]
-            output_items[ o_stream_idx ][ i_idx ] = c
+        elif self._modality == MINMAX_MODE:
+            for (i_idx, i_vec) in enumerate(_in):
+                mlist = []
+                for (i,c) in enumerate(i_vec):
+                    mlist.append( (i, math.sqrt( c.real ** 2 + c.imag ** 2 )) )
+                mlist = sorted(mlist, key=itemgetter(1))
+
+                for (o_stream_idx, i_nth_max) in enumerate(self._indices):
+                  ct = mlist[ i_vec_idx ]
+                  output_items[ o_stream_idx ][ i_idx ] = ct
+
+                  if self._debug:
+                      print "spam: <%s> %7.2fi + %7.2fj @[%d] -> v-slice %d @[%d]" % (
+                          numpy.dtype(ct[1]),
+                          ct[1].real, ct[1].imag, ct[0],
+                          o_stream_idx,
+                          i_idx,
+                      )
+        else:
+            raise AttributeError("modality not understood")
 
         if  self._debug:
             print "spam: len=%d\n" % len(_in)
