@@ -62,11 +62,18 @@ class vector_selector(gr.sync_block):
     def work(self, input_items, output_items):
         _in = input_items[0]
 
-        for e1 in enumerate(_in):
-            for e2 in enumerate(self._indices):
-                _debug = output_items[ e2[0] ][ e1[0] ] = e1[1][ e2[1] ]
+        for (i_idx, i_vec) in enumerate(_in):
+            for (o_stream_idx, i_vec_idx) in enumerate(self._indices):
+                c = i_vec[ i_vec_idx ]
+                output_items[ o_stream_idx ][ i_idx ] = c
+
                 if self._debug:
-                    print "spam: %s \t -> v-slice %d" % (_debug, e2[0])
+                    print "spam: [%s] %7.2fi + %7.2fj -> v-slice %d" % (
+                        numpy.dtype(c),
+                        0,0,
+                        #c[0], c[1],
+                        o_stream_idx
+                    )
 
         if  self._debug:
             print "spam: len=%d\n" % len(_in)
