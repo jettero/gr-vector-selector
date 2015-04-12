@@ -24,6 +24,7 @@ set(GR_PKG_CONF_DIR     ${GR_CONF_DIR}/gnuradio/conf.d)
 set(GR_LIBEXEC_DIR      libexec)
 set(GR_PKG_LIBEXEC_DIR  ${GR_LIBEXEC_DIR}/gnuradio)
 set(GRC_BLOCKS_DIR      ${GR_PKG_DATA_DIR}/grc/blocks)
+set(GRC_EXAMPLES_DIR    ${GR_PKG_DATA_DIR}/examples)
 
 ########################################################################
 # feature check
