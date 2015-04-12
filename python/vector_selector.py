@@ -64,7 +64,7 @@ class vector_selector(gr.sync_block):
         for e1 in enumerate(_in):
             for e2 in enumerate(self._indices):
                 _debug = output_items[ e2[0] ][ e1[0] ] = e1[1][ e2[1] ]
-                print "spam: %s" % _debug
+                print "spam: %s \t -> v-slice %d" % (_debug, e2[0])
 
         print "spam: len=%d\n" % len(_in)
         return len(_in)
