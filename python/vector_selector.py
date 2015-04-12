@@ -7,7 +7,7 @@ class vector_selector(gr.sync_block):
     Select index(es) of vector inputs and create a stream (or streams) of those indicies
     """
 
-    def __init__(self, dtype, vec_len, indices):
+    def __init__(self, dtype, vec_len, indices, debug=False):
         """
         Create the block block
 
@@ -52,6 +52,7 @@ class vector_selector(gr.sync_block):
 
         self._outputs = len(indices)
         self._indices = indices
+        self._debug   = debug
 
         gr.sync_block.__init__(self, "vector_selector",
             [ ", ".join( [dtype] * vec_len ) ],
@@ -64,7 +65,10 @@ class vector_selector(gr.sync_block):
         for e1 in enumerate(_in):
             for e2 in enumerate(self._indices):
                 _debug = output_items[ e2[0] ][ e1[0] ] = e1[1][ e2[1] ]
-                print "spam: %s \t -> v-slice %d" % (_debug, e2[0])
+                if self._debug:
+                    print "spam: %s \t -> v-slice %d" % (_debug, e2[0])
 
-        print "spam: len=%d\n" % len(_in)
+        if  self._debug:
+            print "spam: len=%d\n" % len(_in)
+
         return len(_in)
