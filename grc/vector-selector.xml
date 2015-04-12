@@ -7,6 +7,13 @@
     <import>import grvectorselector</import>
     <make>grvectorselector.vector_selector(dtype=$type.dtype,vec_len=$vec_len,indices=$indices,debug=$debug)</make>
 
+    <!-- I've no idea if this would work, but in theory, if something changes, GRC will 
+         call this method with the new value of indices — presuming it may have changed
+         because it's computed from something else.
+    -->
+
+	<callback>set_indices($indices)</callback>
+
     <!--
 
     >>> from gnuradio import gr
