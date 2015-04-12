@@ -71,9 +71,10 @@ class vector_selector(gr.sync_block):
                 output_items[ o_stream_idx ][ i_idx ] = c
 
                 if self._debug:
-                    print "spam: [%s] %7.2fi + %7.2fj -> v-slice %d" % (
+                    print "spam: [%s] %7.2fi + %7.2fj -> v-slice %d @[%d]" % (
                         numpy.dtype(c),
                         c.real, c.imag,
+                        i_idx,
                         o_stream_idx
                     )
 
