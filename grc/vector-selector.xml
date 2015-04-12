@@ -108,7 +108,7 @@
     </param>
 
 	<check>$vec_len &gt;= 1</check>
-    <check>max($indices) &lt;= $vec_len and min($indices) &gt;= 1</check>
+    <check>max($indices) &lt; $vec_len and min($indices) &gt; -1*$vec_len</check>
 
 	<sink>
 		<name>in</name>

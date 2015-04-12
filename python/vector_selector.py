@@ -1,6 +1,7 @@
 
 import numpy
 from gnuradio import gr
+import math
 
 class vector_selector(gr.sync_block):
     """
@@ -65,8 +66,8 @@ class vector_selector(gr.sync_block):
     def work(self, input_items, output_items):
         _in = input_items[0]
 
-        for (o_stream_idx, i_vec_idx) in enumerate(self._indices):
-            for (i_idx, i_vec) in enumerate(_in):
+        for (i_idx, i_vec) in enumerate(_in):
+            for (o_stream_idx, i_vec_idx) in enumerate(self._indices):
                 c = i_vec[ i_vec_idx ]
                 output_items[ o_stream_idx ][ i_idx ] = c
 
@@ -77,6 +78,10 @@ class vector_selector(gr.sync_block):
                         o_stream_idx,
                         i_idx,
                     )
+
+        for (i_idx, i_vec) in enumerate(_in):
+            c = i_vec[ i_vec_idx ]
+            output_items[ o_stream_idx ][ i_idx ] = c
 
         if  self._debug:
             print "spam: len=%d\n" % len(_in)
