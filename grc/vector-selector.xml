@@ -5,7 +5,7 @@
     <key>vector_selector</key>
     <category>Stream Operators</category>
     <import>import grvectorselector</import>
-    <make>grvectorselector.vector_selector(dtype=$type.dtype,vec_len=$vec_len,indices=$indices)</make>
+    <make>grvectorselector.vector_selector(dtype=$type.dtype,vec_len=$vec_len,indices=$indices,debug=$debug)</make>
 
     <!--
 
@@ -38,8 +38,6 @@
     pretty sure they're right based on the python shell
     output above
     -->
-
-
 
 	<param>
 		<name>IO Type</name>
@@ -85,6 +83,21 @@
         <key>indices</key>
         <value>(7,8,9)</value>
         <type>int_vector</type>
+    </param>
+
+    <param>
+        <name>Spam</name>
+        <key>debug</key>
+        <value>False</value>
+        <type>bool</type>
+        <option>
+			<name>spam the console</name>
+			<key>True</key>
+		</option>
+        <option>
+			<name>no debug</name>
+			<key>False</key>
+        </option>
     </param>
 
 	<check>$vec_len &gt;= 1</check>
