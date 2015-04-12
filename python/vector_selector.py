@@ -70,8 +70,7 @@ class vector_selector(gr.sync_block):
                 if self._debug:
                     print "spam: [%s] %7.2fi + %7.2fj -> v-slice %d" % (
                         numpy.dtype(c),
-                        0,0,
-                        #c[0], c[1],
+                        c.real, c.imag,
                         o_stream_idx
                     )
 
