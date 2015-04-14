@@ -104,11 +104,11 @@
         <value>grvectorselector.INDEX_MODE</value>
         <type>int</type>
         <option>
-            <name>indices tuple lists FFT vector indexes</name>
+            <name>input[idx(n)]</name>
 			<key>grvectorselector.INDEX_MODE</key>
 		</option>
         <option>
-            <name>indices tuple requests n-th max output</name>
+            <name>max(input)[idx(n)]</name>
 			<key>grvectorselector.MINMAX_MODE</key>
         </option>
     </param>
@@ -140,42 +140,35 @@
 	<source>
         <name>vslice</name>
 		<type>$type</type>
-        <vlen>(1,2)[$modality == grvectorselector.MINMAX_MODE]</vlen>
+        <vlen>2 if $modality == grvectorselector.MINMAX_MODE else 1</vlen>
 		<nports>len($indices)</nports>
         <optional>True</optional>
 	</source>
 
     <doc>
-Lorem ipsum dolor sit amet, at sea mnesarchum repudiandae. Vix te
-quidam dolorum, est duis reformidans referrentur cu. Exerci
-oblique insolens mel an, vix appetere adipiscing ea, ad sed idque
-consul adipisci. Dolorem molestiae cum ad. Autem percipit
-delicatissimi ex vim.
+The vector selector picks items from input vectors and creates a stream for \
+each index location.  It operates in two different modes: one mode chooses \
+indexes from the vectors by position and one chooses from a list sorted in \
+order of magnitude — whatever that might mean for the input.  The number of \
+outputs will be equal to the number of indexes chose.  The type of output will \
+match the input except that the vector length on output will depend on the \
+operation mode.
 
-Maiorum splendide ea cum, ex qui stet quaerendum. No eum saepe
-scaevola consectetuer, cu has postulant expetendis. Vim nominavi
-phaedrum ex, vim minim officiis id, tempor labore offendit eu
-vis. No agam oporteat sapientem ius, his singulis salutatus et.
-Congue oblique delicata ius ne, est et meis primis, case
-convenire has eu. Ex mea tale zril populo, homero expetenda
-efficiendi ei mel.
+Vector Length:
+    The length of the vectors being fed to the VS input pad.
 
-Sea quot ullum debet id. An elit veritus ius. Te has stet aperiam
-periculis, ullum doctus persecuti ex vis. Id mea putent animal
-scripta, mea alia mucius salutatus in, vel dicta partem praesent
-id.
+Operation Mode:
+    index(input)
+        each integer in the indices array indicates an input vector location from
+        which to create an ouput stream
 
-Ut eum doming accusam, cum et case idque molestiae. Usu graece
-verterem te. Est eu denique quaerendum, sed nemore melius
-ullamcorper ei. Est ei dico iusto maluisset. In diceret corrumpit
-duo, augue quidam possit quo no. Eu eos nostro reformidans.
+    max(input):
+        the indexes name (n-1)th input slices from a vector sorted by sample
+        magnitude
 
-Accumsan imperdiet eum ex, an est rebum aliquip quaerendum, ea
-corpora lucilius nec. Eos no omnium similique, ius diceret
-aliquam commune et, est id dicat epicuri. Per augue inermis eu,
-est ne alia erant harum. Urbanitas similique nam eu, vim mentitum
-cotidieque voluptatibus no. In vis ferri detraxit. Ne nulla
-ornatus fabellas duo.
+Indices:
+    The indexes of interest.
+
     </doc>
 
 </block>

@@ -4,7 +4,8 @@
 ########################################################################
 
 list(APPEND grc_examples
-    vector-selector.grc
+    vector-selector-demo1.grc
+    vector-selector-demo2.grc
 )
 
 install(
