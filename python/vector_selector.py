@@ -66,9 +66,6 @@ class vector_selector(gr.sync_block):
             [ "%s,%s" % (dtype,dtype) ] * self._outputs if modality == MINMAX_MODE else [ dtype ] * self._outputs
         )
 
-    def set_indices(self, indices):
-        self._indices = indices
-
     def work(self, input_items, output_items):
         _in = input_items[0]
 

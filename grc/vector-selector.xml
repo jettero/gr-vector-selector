@@ -13,13 +13,6 @@
             debug    = $debug,
     )</make>
 
-    <!-- I've no idea if this would work, but in theory, if something changes, GRC will 
-         call this method with the new value of indices — presuming it may have changed
-         because it's computed from something else.
-    -->
-
-	<callback>set_indices($indices)</callback>
-
     <!--
 
     >>> from gnuradio import gr
@@ -94,8 +87,15 @@
     <param>
         <name>Indicies</name>
         <key>indices</key>
-        <value>(7,8,9)</value>
+        <value>7,8,9</value>
         <type>int_vector</type>
+    </param>
+
+    <param>
+        <name>Output Ports</name>
+        <key>ports</key>
+        <value>3</value>
+        <type>int</type>
     </param>
 
     <param>
@@ -130,6 +130,7 @@
 
 	<check>$vec_len &gt;= 1</check>
     <check>max($indices) &lt; $vec_len and min($indices) &gt; -1*$vec_len</check>
+    <check>$ports == len($indices)</check>
 
 	<sink>
 		<name>in</name>
@@ -141,7 +142,7 @@
         <name>vslice</name>
 		<type>$type</type>
         <vlen>2 if $modality == grvectorselector.MINMAX_MODE else 1</vlen>
-		<nports>len($indices)</nports>
+		<nports>$ports</nports>
         <optional>True</optional>
 	</source>
 
@@ -168,6 +169,9 @@ Operation Mode:
 
 Indices:
     The indexes of interest.
+
+Ports:
+    The number of output ports (must match the number of indices)
 
     </doc>
 
