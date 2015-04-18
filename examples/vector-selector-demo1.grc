@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='ASCII'?>
 <flow_graph>
-  <timestamp>Fri Apr 17 16:29:49 2015</timestamp>
+  <timestamp>Sat Apr 18 07:50:46 2015</timestamp>
   <block>
     <key>options</key>
     <param>
@@ -64,7 +64,7 @@
     <key>variable</key>
     <param>
       <key>id</key>
-      <value>samp_rate</value>
+      <value>tap</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -72,34 +72,11 @@
     </param>
     <param>
       <key>value</key>
-      <value>256000</value>
+      <value>int( (fft_size/2) + (freq/Hz_per_slice) )</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(187, 11)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>variable</key>
-    <param>
-      <key>id</key>
-      <value>Hz_per_slice</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>samp_rate / fft_size</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(381, 11)</value>
+      <value>(487, 11)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -133,7 +110,7 @@
     <key>variable</key>
     <param>
       <key>id</key>
-      <value>tap</value>
+      <value>Hz_per_slice</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -141,11 +118,34 @@
     </param>
     <param>
       <key>value</key>
-      <value>int( (fft_size/2) + (freq/Hz_per_slice) )</value>
+      <value>samp_rate / fft_size</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(487, 11)</value>
+      <value>(381, 11)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>id</key>
+      <value>samp_rate</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>256000</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(187, 11)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1300,61 +1300,6 @@
     </param>
   </block>
   <block>
-    <key>variable_qtgui_range</key>
-    <param>
-      <key>id</key>
-      <value>freq</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>label</key>
-      <value>Frequency</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>8000</value>
-    </param>
-    <param>
-      <key>start</key>
-      <value>1000</value>
-    </param>
-    <param>
-      <key>stop</key>
-      <value>127000</value>
-    </param>
-    <param>
-      <key>step</key>
-      <value>1000</value>
-    </param>
-    <param>
-      <key>widget</key>
-      <value>slider</value>
-    </param>
-    <param>
-      <key>orient</key>
-      <value>Qt.Horizontal</value>
-    </param>
-    <param>
-      <key>min_len</key>
-      <value>200</value>
-    </param>
-    <param>
-      <key>gui_hint</key>
-      <value>0,1</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(688, 9)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
     <key>vector_selector</key>
     <param>
       <key>id</key>
@@ -1403,6 +1348,61 @@
     <param>
       <key>_coordinate</key>
       <value>(101, 667)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>variable_qtgui_range</key>
+    <param>
+      <key>id</key>
+      <value>freq</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value>Frequency</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>8000</value>
+    </param>
+    <param>
+      <key>start</key>
+      <value>1000</value>
+    </param>
+    <param>
+      <key>stop</key>
+      <value>127000</value>
+    </param>
+    <param>
+      <key>step</key>
+      <value>1000</value>
+    </param>
+    <param>
+      <key>widget</key>
+      <value>counter_slider</value>
+    </param>
+    <param>
+      <key>orient</key>
+      <value>Qt.Horizontal</value>
+    </param>
+    <param>
+      <key>min_len</key>
+      <value>200</value>
+    </param>
+    <param>
+      <key>gui_hint</key>
+      <value>0,1,1,2</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(688, 9)</value>
     </param>
     <param>
       <key>_rotation</key>
