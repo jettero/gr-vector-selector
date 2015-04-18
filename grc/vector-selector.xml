@@ -13,6 +13,8 @@
             debug    = $debug,
     )</make>
 
+    <callback>change_settings($indices, $debug)</callback>
+
     <!--
 
     >>> from gnuradio import gr
@@ -85,7 +87,7 @@
 	</param>
 
     <param>
-        <name>Indicies</name>
+        <name>Indices</name>
         <key>indices</key>
         <value>7,8,9</value>
         <type>int_vector</type>
@@ -172,6 +174,7 @@ Indices:
 
 Ports:
     The number of output ports (must match the number of indices)
+    [NOTE: tried to compute this from len(indices), but GRC didn't handle it well on file reload.]
 
     </doc>
 

@@ -8,7 +8,7 @@ MINMAX_MODE = 5678
 
 class vector_selector(gr.sync_block):
     """
-    Select index(es) of vector inputs and create a stream (or streams) of those indicies
+    Select index(es) of vector inputs and create a stream (or streams) of those indices
     """
 
     def __init__(self, dtype, vec_len, indices, modality=INDEX_MODE, debug=False):
@@ -18,7 +18,7 @@ class vector_selector(gr.sync_block):
         Args:
             dtype:    the numpy dtype of the numeric values -- vector and stream(s)
             vec_len:  size of the input vectors
-            indices:  a list of indicies out of which to create streams
+            indices:  a list of indices out of which to create streams
             debug:    be spammy on the console
         """
 
@@ -56,15 +56,24 @@ class vector_selector(gr.sync_block):
         #  Oh well, we live an adapt I guess.
 
         self._outputs  = len(indices)
-        self._indices  = indices
-        self._debug    = debug
         self._modality = modality
         self._dtype    = dtype
+        self._indices  = indices + ()  # A:A+I→A so the error is right here on bad arg
+        self._debug    = not not debug # same idea as above
 
         gr.sync_block.__init__(self, "vector_selector",
             [ ", ".join( [dtype] * vec_len ) ],
             [ "%s,%s" % (dtype,dtype) ] * self._outputs if modality == MINMAX_MODE else [ dtype ] * self._outputs
         )
+
+    def change_settings(self, indices, debug):
+        if len(indices) != len(self._indices):
+            print "attempt to change lenght of indices list ignored"
+        else:
+            self._indices = indices + ()
+        self._debug = not not debug
+
+        print "change_settings(indices=%s, debug=%s)" % (indices,debug)
 
     def work(self, input_items, output_items):
         _in = input_items[0]
