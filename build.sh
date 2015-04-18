@@ -1,32 +1,28 @@
 #!/bin/bash
 
-buildname='gr-vector-selector'
-buildtmp="/tmp/$buildname.tmp"
+src_dir=$(dirname $(readlink -m $0))
+buildtmp="/tmp/$(id -u)/$(basename $src_dir)/"
+
+if [ -z "$BUILD_TMP" ]; then
+    BUILD_TMP="$buildtmp"
+fi
 
 if [ -z "$PREFIX" ]; then
     read -ep "PREFIX=" -i /usr/local PREFIX
 fi
 
-function remove_tmp() {
-    rm -rvf ${buildtmp}-* \
-        | grep --color=never directory:
-}
+if [ ! -d "${BUILD_TMP:-$buildtmp}" ]; then
+    read -ep "BUILD_TMP=" -i "${BUILD_TMP:-$buildtmp}" BUILD_TMP
+    [ -z "$BUILD_TMP" ] && BUILD_TMP="$buildtmp"
+fi
 
-tmp=$(mktemp -d ${buildtmp}-XXXXXXXXXXXX)
-trap "remove_tmp; exit" 0 1 2 5 15
-
-src_dir=$(dirname $(readlink -m $0))
-
-if [ ! -n "$src_dir" -o ! -d "$src_dir" ]; then
-    echo "couldn't figure out where $0 is"
+if ! mkdir -vp "$BUILD_TMP" || ! cd "$BUILD_TMP"; then
+    echo "couldn't create or chdir into BUILD_TMP=\"$BUILD_TMP\""
     exit 1
 fi
 
-if [ -n "$tmp" -a -d "$tmp" ] && cd "$tmp"; then
-    echo "created temp directory $tmp"
-
-else
-    echo error creating or using tmp directory
+if [ ! -n "$src_dir" -o ! -d "$src_dir" ]; then
+    echo "couldn't figure out where $0 is"
     exit 1
 fi
 
@@ -34,6 +30,7 @@ set -e
 
 cmake -Wno-dev "-DCMAKE_INSTALL_PREFIX=${PREFIX:-/usr/local}" "$src_dir"
 make
+
 [ -z "$NO_INSTALL" ] && \
     sudo make install
 
