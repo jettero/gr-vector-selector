@@ -5,6 +5,10 @@ You can do some really cool things with single FFT output BINs.  Why is there no
 way (that I can find) to extract one or more bins from the FFT output in a
 useful/arbitrary way?
 
+This package has a block lets you select indexes from vectors output by other
+blocks and makes streams out of them.  There's also a block that puts streams
+back together into vectors to feed to whatever else.
+
 *Requirements*
 
 * GNU Radio 3.7
