@@ -1,5 +1,7 @@
 #!/bin/bash
 
+umask 022
+
 src_dir=$(dirname $(readlink -m $0))
 buildtmp="/tmp/$(id -u)/$(basename $src_dir)/"
 
@@ -29,7 +31,7 @@ fi
 set -e
 
 cmake -Wno-dev "-DCMAKE_INSTALL_PREFIX=${PREFIX:-/usr/local}" "$src_dir"
-make
+make -j 7
 
 [ -z "$NO_INSTALL" ] && \
     sudo make install
@@ -37,3 +39,5 @@ make
 if [ -n "$*" ]; then
     "$@"
 fi
+
+make test
