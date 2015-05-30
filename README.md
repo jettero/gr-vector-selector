@@ -6,8 +6,9 @@ way (that I can find) to extract one or more bins from the FFT output in a
 useful/arbitrary way?
 
 This package has a block lets you select indexes from vectors output by other
-blocks and makes streams out of them.  There's also a block that puts streams
-back together into vectors to feed to whatever else.
+blocks and makes streams out of them.  It can select based on index or it can
+output whichever bin is the max (both the idx of it and the complex value of the
+bin).
 
 *Requirements*
 
@@ -33,7 +34,7 @@ Installing the Alternate Moving Averages
 
 *building by hand*
 
-    buildname=gr-alt-moving-average
+    buildname=gr-vector-selector
     buildloc=/tmp/$buildname
 
     git clone http://github.com/jettero/$buildname.git

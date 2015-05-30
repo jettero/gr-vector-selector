@@ -39,5 +39,3 @@ make -j 7
 if [ -n "$*" ]; then
     "$@"
 fi
-
-make test
